@@ -1,10 +1,14 @@
 package com.yliu.producer;
 
+import com.yliu.bean.SendParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class WorkSender {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkSender.class);
@@ -12,18 +16,9 @@ public class WorkSender {
     @Autowired
     private RabbitTemplate template;
 
-    private static final String queueName = "work.hello";
-
-    public void send(int index) {
-        StringBuilder builder = new StringBuilder("Hello");
-        int limitIndex = index % 3+1;
-        for (int i = 0; i < limitIndex; i++) {
-            builder.append('.');
-        }
-        builder.append(index+1);
-        String message = builder.toString();
-        template.convertAndSend(queueName, message);
-        LOGGER.info(" [x] Sent '{}'", message);
+    public void send(SendParam sendParam) throws AmqpException{
+        template.convertAndSend(sendParam.getKey(), sendParam.getParam());
+        LOGGER.info(" [x] Sent '{}'", sendParam.getParam());
     }
 
 }
