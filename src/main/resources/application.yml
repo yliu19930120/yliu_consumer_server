@@ -3,9 +3,16 @@ server:
   servlet:
     context-path: /yliu
 spring:
+  rabbitmq:
+    virtual-host: /
+    username: guest
+    password: guest
+    port: 5672
+    host: 127.0.0.1
   data:
     mongodb:
       uri: mongodb://mongo_server:27017/crawler
+
 yliu:
   auth: false
   cross: false
