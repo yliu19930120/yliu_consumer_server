@@ -1,7 +1,6 @@
 package com.yliu.consumer;
 
 import com.yliu.bean.Asset;
-import com.yliu.bean.SendParam;
 import com.yliu.service.CalculateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RabbitListener(queues = "calculate")
+@RabbitListener(queues = "RATE_CALCULATE")
 public class CalculateReceiver {
 
     private final static Logger log = LoggerFactory.getLogger(CalculateReceiver.class);
@@ -20,13 +19,9 @@ public class CalculateReceiver {
     private CalculateService calculateService;
 
     @RabbitHandler
-    public void calculate(SendParam<Asset> sendParam){
-        calculateService.calculateRate(sendParam.getParam());
-        log.info("key = {} 的任务计算完毕",sendParam.getKey());
+    public void calculate(Asset asset){
+        Double aDouble = calculateService.calculateRate(asset);
+        log.info("的任务计算结果 = {}",aDouble);
     }
 
-    @RabbitHandler
-    public void calculate(String msg){
-        log.info("初始消息 {} ",msg);
-    }
 }

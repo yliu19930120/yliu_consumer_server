@@ -24,7 +24,7 @@ public class CalculateController {
     @PostMapping("/returnrate")
     public Result<Double> calReturnrate(Asset asset){
         Double value = calculateService.calculateRate(asset);
-
         return Result.ok(value);
     }
+
 }

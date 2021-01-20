@@ -25,9 +25,13 @@ public class CalculateService {
 
     public Double calculateRate(Asset asset){
         Query query=Query.query(Criteria.where("code").is(asset.getCode())
-                .andOperator(Criteria.where("date").gte(asset.getStartDate()))
-                .andOperator(Criteria.where("date").lte(asset.getEndDate())));
-
+                .andOperator(Criteria.where("date").gte(asset.getStartDate()),
+                        Criteria.where("date").lte(asset.getEndDate())))
+                ;
+        if(asset.getStartDate() == null && asset.getEndDate() == null){
+            query=Query.query(Criteria.where("code").is(asset.getCode()));
+        }
+                ;
         List<FundValueHis> fundValueHis = mongoTemplate.find(query, FundValueHis.class);
         List<NetValue> netValues = fundValueHis.stream().map(t -> {
             NetValue netValue = new NetValueImpl(t.getValue(), t.getDate());
