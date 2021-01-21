@@ -28,7 +28,7 @@ public class CalculateController {
     @ApiOperation(value = "区间收益率")
     @PostMapping("/returnrate")
     public Result<Double> calReturnrate(Asset asset){
-        Double value = calculateService.calculateRate(asset);
+        Double value = calculateService.calculateRateInRedis(asset);
         return Result.ok(value);
     }
 
