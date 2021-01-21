@@ -2,11 +2,13 @@ package com.yliu.bean;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Document(collection = "fundValueHis")
-public class FundValueHis extends Bean{
+public class FundValueHis extends Bean implements Serializable {
 
+    private static final long serialVersionUID = 6978880089999315958L;
     private String code;
     private Double value;
     private LocalDate date;

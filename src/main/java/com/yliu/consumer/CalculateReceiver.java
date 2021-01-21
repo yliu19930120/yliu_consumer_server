@@ -20,7 +20,7 @@ public class CalculateReceiver {
 
     @RabbitHandler
     public void calculate(Asset asset){
-        Double aDouble = calculateService.calculateRate(asset);
+        Double aDouble = calculateService.calculateRateInRedis(asset);
         log.info("的任务计算结果 = {}",aDouble);
     }
 

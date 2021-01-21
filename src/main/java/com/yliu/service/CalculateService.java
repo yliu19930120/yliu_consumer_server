@@ -23,6 +23,9 @@ public class CalculateService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    private FundValueHisService fundValueHisService;
+
     public Double calculateRate(Asset asset){
         Query query=Query.query(Criteria.where("code").is(asset.getCode())
                 .andOperator(Criteria.where("date").gte(asset.getStartDate()),
@@ -33,6 +36,17 @@ public class CalculateService {
         }
                 ;
         List<FundValueHis> fundValueHis = mongoTemplate.find(query, FundValueHis.class);
+        List<NetValue> netValues = fundValueHis.stream().map(t -> {
+            NetValue netValue = new NetValueImpl(t.getValue(), t.getDate());
+            netValue.setRate(t.getGrowthRate());
+            return netValue;
+        }).collect(Collectors.toList());
+        NetValueCalculator calculator = new ReturnrateCalculator();
+        return calculator.calculate(netValues);
+    }
+
+    public Double calculateRateInRedis(Asset asset){
+        List<FundValueHis> fundValueHis = fundValueHisService.getByCode(asset.getCode());
         List<NetValue> netValues = fundValueHis.stream().map(t -> {
             NetValue netValue = new NetValueImpl(t.getValue(), t.getDate());
             netValue.setRate(t.getGrowthRate());
