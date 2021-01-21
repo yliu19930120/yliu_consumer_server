@@ -63,12 +63,9 @@ public class FundValueHisService {
 
     public List<FundValueHis> getByCode(String code){
         BoundZSetOperations boundZSetOperations = redisTemplate.boundZSetOps(code);
-        ScanOptions scanOptions = ScanOptions.scanOptions().count(500).build();
-        Cursor<ZSetOperations.TypedTuple<FundValueHis>> scan = boundZSetOperations.scan(scanOptions);
-        List<FundValueHis> fundValues = new ArrayList<>();
-        scan.forEachRemaining(t->{
-            fundValues.add(t.getValue());
-        });
+        Set<ZSetOperations.TypedTuple<FundValueHis>> set = boundZSetOperations.rangeWithScores(0, -1);
+        List<FundValueHis> fundValues = set.stream().map(ZSetOperations.TypedTuple::getValue).collect(Collectors.toList());
+        LOGGER.info("读出 {} 记录 {}条",code,fundValues.size());
         return fundValues;
     }
 }
