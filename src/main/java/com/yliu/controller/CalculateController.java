@@ -7,8 +7,9 @@ import com.yliu.service.CalculateService;
 import com.yliu.service.FundValueHisService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,8 @@ import java.util.List;
 @RequestMapping("/calculate")
 public class CalculateController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CalculateController.class);
+
     @Autowired
     private CalculateService calculateService;
 
@@ -28,6 +31,7 @@ public class CalculateController {
     @ApiOperation(value = "区间收益率")
     @PostMapping("/returnrate")
     public Result<Double> calReturnrate(Asset asset){
+        LOGGER.info("接到计算请求 {} ",asset.getCode());
         Double value = calculateService.calculateRateInRedis(asset);
         return Result.ok(value);
     }
