@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-	<property name="project" value="yliu_scheduler_server" />
+	<property name="project" value="yliu_consumer_server" />
 	<property name="path" value="./logs" />
 
 	<appender name="FILE"
