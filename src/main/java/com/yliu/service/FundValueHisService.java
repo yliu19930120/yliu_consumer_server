@@ -38,7 +38,7 @@ public class FundValueHisService {
     public void syncToRedis(){
         List<Fund> funds = fundDao.findAll();
 
-        funds = funds.stream().sorted(Comparator.comparing(Fund::getCode)).limit(100).collect(Collectors.toList());
+        funds = funds.stream().sorted(Comparator.comparing(Fund::getCode)).limit(2000).collect(Collectors.toList());
 
         funds.forEach(fund->{
             String code = fund.getCode();
