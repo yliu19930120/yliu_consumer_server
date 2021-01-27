@@ -35,10 +35,10 @@ public class FundValueHisService {
     private FundValueHisDao fundValueHisDao;
 
     @Async
-    public void syncToRedis(){
+    public void syncToRedis(int size){
         List<Fund> funds = fundDao.findAll();
 
-        funds = funds.stream().sorted(Comparator.comparing(Fund::getCode)).limit(100).collect(Collectors.toList());
+        funds = funds.stream().sorted(Comparator.comparing(Fund::getCode)).limit(size).collect(Collectors.toList());
 
         funds.forEach(fund->{
             String code = fund.getCode();

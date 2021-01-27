@@ -38,8 +38,8 @@ public class CalculateController {
 
     @ApiOperation(value = "同步净值")
     @GetMapping("/sync")
-    public Result syncValue2Redis(){
-        fundValueHisService.syncToRedis();
+    public Result syncValue2Redis(@RequestParam("size")Integer size){
+        fundValueHisService.syncToRedis(size);
         return Result.ok();
     }
 

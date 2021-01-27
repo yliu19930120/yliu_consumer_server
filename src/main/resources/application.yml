@@ -8,6 +8,10 @@ spring:
     password: guest
     port: 5672
     host: 127.0.0.1
+    listener:
+      simple:
+        concurrency: 4
+        max-concurrency: 10
   data:
     mongodb:
       uri: mongodb://admin:fasfmlmk23423@mongo_server:27017/crawler

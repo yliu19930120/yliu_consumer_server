@@ -6,6 +6,7 @@ import java.time.LocalDate;
 public class Asset implements Serializable {
 
     private static final long serialVersionUID = 4277871444305355605L;
+    private String requestId;
     private String code;
 
     private LocalDate startDate;
@@ -33,5 +34,13 @@ public class Asset implements Serializable {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
     }
 }
